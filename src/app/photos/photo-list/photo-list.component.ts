@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { debounceTime } from 'rxjs/operators'
+
 import { Photo } from '../photo/photo';
 import { PhotoService } from '../photo/photo.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'ap-photo-list',
@@ -11,14 +14,29 @@ import { ActivatedRoute } from '@angular/router';
 export class PhotoListComponent implements OnInit {
 
   photos: Photo[] = [];
+  filter: string = '';
+  hasMore: boolean = true;
+  currentPage: number = 1;
+  userName: string = '';
 
-  constructor(private photoService: PhotoService,
-    private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute,
+    private photoService: PhotoService) { }
    
   ngOnInit(): void {
-    const userName = this.activatedRoute.snapshot.params.userName;
-    this.photoService.listFromUser(userName)
-    .subscribe(photos => this.photos = photos, err => console.log(err));
+    this.userName = this.activatedRoute.snapshot.params.userName;
+    this.photos = this.activatedRoute.snapshot.data['photos'];
+
+
+  }
+
+
+  load() {
+    this.photoService.listFromUserPaginated(this.userName, ++this.currentPage)
+    .subscribe(photos => {
+      this.filter = '';
+      this.photos = this.photos.concat(photos);
+      if (!photos.length) this.hasMore = false;
+    })
   }
 
 }
