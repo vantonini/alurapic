@@ -21,10 +21,9 @@
           type="password" 
           class="form-control" 
           placeholder="password"> 
-        <ap-vmessage
-        *ngIf="loginForm.get('password').errors?.required"
-        text="Password is required"></ap-vmessage
-          >
+          <ap-vmessage
+          *ngIf="loginForm.get('password').errors?.required"
+          text="Password is required"></ap-vmessage>
     </div>
 
     <button 
@@ -36,4 +35,4 @@
 
 </form>
 
-<p>Not a user?<a>Register now</a></p>
+<p>Not a user?<a [routerLink]="['signup']">Register now</a></p>
