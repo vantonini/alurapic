@@ -1,27 +1,31 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-
+import { Router } from "@angular/router";
 
 import { lowerCaseValidator } from "src/app/shared/validators/lower-case.validator";
+import { PlatformDetectorService } from "src/app/core/platform-detector/platform-detector.service";
 import { UserNotTakenValidatorService } from "./user-not-taken.validator.service";
 import { NewUser } from "./new-user";
 import { SignUpService } from "./signup.service";
-import { Router } from "@angular/router";
 
 @Component({
   // won't give a selector because I won't use it in another template
   // it has page scope
-  templateUrl: './signup.component.html'
+  templateUrl: './signup.component.html',
+  providers: [ UserNotTakenValidatorService ]
 })
 export class SignUpComponent implements OnInit{
   
   signupForm: FormGroup;
+  @ViewChild('emailInput') emailInput: ElementRef<HTMLInputElement>;
+
   
   constructor(
     private formBuilder: FormBuilder,
     private userNotTakenValidatorService: UserNotTakenValidatorService,
     private signUpService: SignUpService,
-    private router: Router
+    private router: Router,
+    private platformDetectorService: PlatformDetectorService
     ) {
     
   }
@@ -51,6 +55,8 @@ export class SignUpComponent implements OnInit{
         Validators.maxLength(14)
       ]],
     });
+    this.platformDetectorService.isPlatformBrowser() &&
+    this.emailInput.nativeElement.focus();
   }
   
   signup() {
