@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { UserService } from "../user/user.service";
 
 @Injectable({providedIn:'root'})
-export class AuthGuard implements CanActivate{
+export class LoginGaurd implements CanActivate{
   
   constructor(
     private userServices: UserService,
@@ -16,8 +16,8 @@ export class AuthGuard implements CanActivate{
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean>  {
       
-        if (!this.userServices.isLogged()){
-          this.router.navigate(['']);
+        if (this.userServices.isLogged()){
+          this.router.navigate(['user', this.userServices.getUserName()])
           return false;
         }
       return true; // this is important otherwise we won't have access to the logout function
