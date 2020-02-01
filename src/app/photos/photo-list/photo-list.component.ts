@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { debounceTime } from 'rxjs/operators'
+import { Observable } from "rxjs";
 
 import { Photo } from '../photo/photo';
 import { PhotoService } from '../photo/photo.service';
@@ -23,8 +24,10 @@ export class PhotoListComponent implements OnInit {
     private photoService: PhotoService) { }
    
   ngOnInit(): void {
-    this.userName = this.activatedRoute.snapshot.params.userName;
+   this.activatedRoute.params.subscribe(params => {
+    this.userName = params.userName;
     this.photos = this.activatedRoute.snapshot.data['photos'];
+   });
 
 
   }
