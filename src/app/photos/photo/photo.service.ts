@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Photo } from "./photo";
 import { PhotoComment } from "./photo-comment";
+import { AlertService } from "../../shared/alert/alert.service";
 
 const API = 'http://localhost:3000';
 
@@ -10,7 +11,9 @@ const API = 'http://localhost:3000';
 })
 export class PhotoService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient
+  ) {
     this.http = http;
   }
 
