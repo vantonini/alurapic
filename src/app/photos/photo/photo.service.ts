@@ -1,13 +1,16 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Photo } from "./photo";
-import { PhotoComment } from "./photo-comment";
 import { map } from "rxjs/internal/operators/map";
 import { catchError } from "rxjs/operators";
 import { of, throwError } from "rxjs";
-import { AlertService } from "../../shared/alert/alert.service";
 
-const API = 'http://localhost:3000';
+
+import { Photo } from "./photo";
+import { PhotoComment } from "./photo-comment";
+import { AlertService } from "../../shared/alert/alert.service";
+import { environment } from "../../../environments/environment";
+
+const API = environment.ApiUrl;
 
 @Injectable({
   providedIn: 'root' // component raiz
