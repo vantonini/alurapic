@@ -8,13 +8,17 @@ import { RequestInterceptor } from "./auth/request.interceptor";
 import { FooterComponent } from "./footer/footer.component";
 import { AlertModule } from "../shared/alert/alert.module";
 import { LoadingModule } from "../shared/components/loading/loading.module";
+import { MenuModule } from "../shared/components/menu/menu.module";
+import { ShowIfLoggedModule } from "../photos/photo-details/show-if-directive/show-if-directive.module";
 
 @NgModule({
   imports: [
     CommonModule,
     AlertModule,
     RouterModule,
-    LoadingModule
+    LoadingModule,
+    MenuModule,
+    ShowIfLoggedModule
   ],
   declarations: [
     HeaderComponent,
