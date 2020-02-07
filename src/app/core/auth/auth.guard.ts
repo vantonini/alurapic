@@ -17,7 +17,12 @@ export class AuthGuard implements CanActivate{
     state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean>  {
       
         if (!this.userServices.isLogged()){
-          this.router.navigate(['']);
+          this.router.navigate([''],
+          {
+            queryParams: {
+              fromUrl: state.url
+            }
+          });
           return false;
         }
       return true; // this is important otherwise we won't have access to the logout function
