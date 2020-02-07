@@ -7,6 +7,7 @@ import { PlatformDetectorService } from "src/app/core/platform-detector/platform
 import { UserNotTakenValidatorService } from "./user-not-taken.validator.service";
 import { NewUser } from "./new-user";
 import { SignUpService } from "./signup.service";
+import { userNamePassword } from "./username-password.validator";
 
 @Component({
   // won't give a selector because I won't use it in another template
@@ -54,16 +55,21 @@ export class SignUpComponent implements OnInit{
         Validators.minLength(8), 
         Validators.maxLength(14)
       ]],
+    },
+    {
+      validator: userNamePassword
     });
     this.platformDetectorService.isPlatformBrowser() &&
     this.emailInput.nativeElement.focus();
   }
   
   signup() {
-    const newUser: NewUser = this.signupForm.getRawValue();
-    this.signUpService.signup(newUser)
-    .subscribe( () => this.router.navigate(['']),
-      err => console.log(err)
-    );
+    if(this.signupForm.valid && !this.signupForm.pending) {
+      const newUser: NewUser = this.signupForm.getRawValue();
+      this.signUpService.signup(newUser)
+      .subscribe( () => this.router.navigate(['']),
+        err => console.log(err)
+      );
+    }
   }
 }
